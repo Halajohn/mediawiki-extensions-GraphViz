@@ -1,9 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
-			"Ата",
+			"Movses",
+			"Piramidion",
 			"Vlad5250",
-			"Piramidion"
+			"Ата"
 		]
 	},
 	"graphviz-desc": "Дозволяє використовувати розмітку [http://www.graphviz.org Graphviz] і генерує вбудовані зображення",
@@ -21,12 +22,12 @@
 	"graphviz-upload-not-permitted": "Створення графічного зображення вимагає дозволу на завантаження.",
 	"graphviz-user-blocked": "Створення графічного зображення не дозволене заблокованим користувачам.",
 	"graphviz-read-only": "Створення графічного зображення заборонене, оскільки вікі перебуває у режимі «тільки читання».",
-	"graphviz-uploaderror": "Завантаження графічного зображення не вдалося для файла: $1",
+	"graphviz-uploaderror": "Завантаження графічного зображення не вдалося для файлу: $1",
 	"graphviz-upload-comment": "згенероване [[Special:Version#Installed_extensions|розширенням]] GraphViz зі сторінки [[$1]]",
 	"graphviz-unrecognized-preparse-value": "Значення попереднього аналізу «$1» не розпізнано.",
 	"graphviz-category-desc": "$1 містить сторінки, створені розширенням GraphViz.",
 	"graphviz-subcategory-desc": "$1 містить сторінки, створені командою $2.",
-	"graphviz-map-desc": "= ImageMap =\nПри включенні цього зображення у вікі-сторінку використовуйте наступну розмітку для ввімкнення посилань:\n <nowiki>\n<imagemap>\nFile:$1\n$2</imagemap>\n</nowiki>\nДив. [https://www.mediawiki.org/wiki/Extension:ImageMap ImageMap] для додаткової інформації.",
+	"graphviz-map-desc": "= ImageMap =\nПри включенні цього зображення у вікі-сторінку використовуйте наступну розмітку для ввімкнення посилань:\n <nowiki>\n<imagemap>\nFile:$1\n$2</imagemap>\n</nowiki>\nДив. [https://www.mediawiki.org/wiki/Special:MyLanguage/Extension:ImageMap ImageMap] для додаткової інформації.",
 	"graphviz-upload-user": "GraphViz",
 	"graphviz-setting-execpath": "Виконуваний бінарний шлях GraphViz.",
 	"graphviz-setting-mscgenpath": "Виконуваний бінарний шлях mscgen для GraphViz.",

@@ -33,10 +33,12 @@ use DeferredUpdates;
 use File;
 use FileRepo;
 use FSFile;
-use HTMLCacheUpdate;
+use HTMLCacheUpdateJob;
+use JobQueueGroup;
 use LinksUpdate;
 use LocalFile;
 use MediaHandler;
+use MediaWiki\MediaWikiServices;
 use MWException;
 use RepoGroup;
 use RequestContext;
@@ -239,7 +241,12 @@ class UploadLocalFile extends LocalFile {
 		$upload = new UploadFromLocalFile;
 		$upload->initializePathInfo( $fileName, "", 0, false );
 		$title = $upload->getTitle();
-		$file = wfFindFile( $title );
+		if ( method_exists( MediaWikiServices::class, 'getRepoGroup' ) ) {
+			// MediaWiki 1.34+
+			$file = MediaWikiServices::getInstance()->getRepoGroup()->findFile( $title );
+		} else {
+			$file = wfFindFile( $title );
+		}
 		return $file;
 	}
 
@@ -282,7 +289,12 @@ class UploadLocalFile extends LocalFile {
 			return false;
 		}
 
-		RepoGroup::singleton()->clearCache( $title );
+		if ( method_exists( MediaWikiServices::class, 'getRepoGroup' ) ) {
+			// MediaWiki 1.34+
+			MediaWikiServices::getInstance()->getRepoGroup()->clearCache( $title );
+		} else {
+			RepoGroup::singleton()->clearCache( $title );
+		}
 
 		return true;
 	}
@@ -481,14 +493,16 @@ class UploadLocalFile extends LocalFile {
 			# Delete old thumbnails
 			$this->purgeThumbnails();
 
-			# Remove the old file from the squid cache
+			# Remove the old file from the CDN cache
 			CdnCacheUpdate::purge( [ $this->getURL() ] );
 		}
 
 		# Invalidate cache for all pages using this file
-		$update = new HTMLCacheUpdate( $this->getTitle(), 'imagelinks' );
-		$update->doUpdate();
+		$job = HTMLCacheUpdateJob::newForBacklinks( $this->getTitle(), 'imagelinks' );
+		JobQueueGroup::singleton()->push( $job );
+
 		if ( !$reupload ) {
+			# Update link tracking for all pages using this file
 			LinksUpdate::queueRecursiveJobsForTable( $this->getTitle(), 'imagelinks' );
 		}
 
